@@ -2,7 +2,7 @@
 
 This is a simple web component that allows you to dither, well, anything. It can be used like this:
 
-```
+```html
 <fe-dither pixel-size="2">
     <!-- the content you wanna dither -->
 </fe-dither>
