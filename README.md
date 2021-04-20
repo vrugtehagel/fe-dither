@@ -8,7 +8,7 @@ This is a simple web component that allows you to dither, well, anything. Includ
 </fe-dither>
 ```
 
-The cool part is that you can do anything with its content; animate colors, move things around, etcetera, and it'll all just work. Even the scrollbars get dithered! This is all due to the fact that there's no JavaScript involved in the rendering; all JavaScript is basically just setting up the necessary HTML and CSS, defining the web component and making it configurable (though there are not that many options yet). This is cool and all, but it's actually also efficient because it means the rendering is pretty fast (as it uses the GPU), and you don't have to worry about this component impacting your frame budget.
+The cool part is that you can do anything with its content; animate colors, move things around, etcetera, and it'll all just work. Even the scrollbars get dithered! This is all due to the fact that there's no JavaScript involved in the rendering; the JavaScript file is basically just setting up the necessary HTML and CSS, defining the web component and making it configurable (though there are not that many options yet). This is cool and all, but it's actually also efficient because it means the rendering is pretty fast (as it uses the GPU), and you don't have to worry about this component impacting your frame budget.
 
 ## Pixel size
 The `pixel-size` attribute controls the size of the pixelation effect. The default is 2, meaning every rendered pixel (square) is 2px by 2px. Setting it to 1 would result in the finest dithering effect you can achieve, and setting it to high values make everything inside it illegible.
