@@ -6,19 +6,19 @@
 // in the context of dithering
 
 function getBayerMatrix(size){
-	const factor = 2 ** (8 - 2 * size);
-	return Array.from({length: 2 ** size}, (_, x) => {
-		return Array.from({length: 2 ** size}, (_, y) => {
-			// some complicated formula... Stole it from wikipedia.
-			// M(x, y) = bit_reverse(bit_interleave(bitwise_xor(x, y), x))
-			const a = (x ^ y).toString(2).padStart(size, 0);
-			const b = y.toString(2).padStart(size, 0);
-			let i = size;
-			let c = '';
-			while(i--) c += a[i] + b[i];
-			return factor * parseInt(c, 2);
-		});
-	});
+    const factor = 2 ** (8 - 2 * size);
+    return Array.from({length: 2 ** size}, (_, x) => {
+        return Array.from({length: 2 ** size}, (_, y) => {
+            // some complicated formula... Stole it from wikipedia.
+            // M(x, y) = bit_reverse(bit_interleave(bitwise_xor(x, y), x))
+            const a = (x ^ y).toString(2).padStart(size, 0);
+            const b = y.toString(2).padStart(size, 0);
+            let i = size;
+            let c = '';
+            while(i--) c += a[i] + b[i];
+            return factor * parseInt(c, 2);
+        });
+    });
 };
 
 // Creates a Bayer dither map. First argument is the size of the Bayer matrix
@@ -26,21 +26,21 @@ function getBayerMatrix(size){
 // dithering effect.
 
 function getBayerDitherMap(size = 4, pixelSize = 1){
-	const canvas = document.createElement('canvas');
-	const context = canvas.getContext('2d');
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
 
-	canvas.width = 2 ** size * pixelSize;
-	canvas.height = 2 ** size * pixelSize;
+    canvas.width = 2 ** size * pixelSize;
+    canvas.height = 2 ** size * pixelSize;
 
-	const bayerMatrix = getBayerMatrix(size);
+    const bayerMatrix = getBayerMatrix(size);
 
-	bayerMatrix.forEach((column, x) => column.forEach((value, y) => {
-		const hexColor = '#' + value.toString(16).padStart(2, 0).repeat(3);
-		context.fillStyle = hexColor;
-		context.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
-	}));
+    bayerMatrix.forEach((column, x) => column.forEach((value, y) => {
+        const hexColor = '#' + value.toString(16).padStart(2, 0).repeat(3);
+        context.fillStyle = hexColor;
+        context.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
+    }));
 
-	return canvas;
+    return canvas;
 };
 
 // This function simply creates a canvas from a width, height, and a callback
@@ -50,24 +50,24 @@ function getBayerDitherMap(size = 4, pixelSize = 1){
 // to a default of 128 for r, g, and b, and 255 for a.
 
 function getCanvasFrom({width, height}, callback){
-	const canvas = document.createElement('canvas');
-	const context = canvas.getContext('2d');
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
 
-	canvas.width = width;
-	canvas.height = height;
+    canvas.width = width;
+    canvas.height = height;
 
-	const data = Uint8ClampedArray.from(
-		Array.from({length: width}, (_, y) => {
-			return Array.from({length: height}, (_, x) => {
-				const {r, g, b, a} = callback(x, y);
-				return [r ?? 128, g ?? 128, b ?? 128, a ?? 255];
-			}).flat();
-		}).flat()
-	);
-	const imagedata = new ImageData(data, width, height);
-	context.putImageData(imagedata, 0, 0);
+    const data = Uint8ClampedArray.from(
+        Array.from({length: width}, (_, y) => {
+            return Array.from({length: height}, (_, x) => {
+                const {r, g, b, a} = callback(x, y);
+                return [r ?? 128, g ?? 128, b ?? 128, a ?? 255];
+            }).flat();
+        }).flat()
+    );
+    const imagedata = new ImageData(data, width, height);
+    context.putImageData(imagedata, 0, 0);
 
-	return canvas;
+    return canvas;
 };
 
 // Gets a displacement map for an feDisplacementMap with side lengths [size].
@@ -76,9 +76,9 @@ function getCanvasFrom({width, height}, callback){
 // means there will be rounding errors whenever size is not 128.
 
 function getDisplacementMap(size){
-	return getCanvasFrom({width: size, height: size}, (x, y) => {
-		const r = 255 - 127 / (size - 1) * x;
-		const g = 255 - 127 / (size - 1) * y;
-	    return {r, g};
-	});
+    return getCanvasFrom({width: size, height: size}, (x, y) => {
+        const r = 255 - 127 / (size - 1) * x;
+        const g = 255 - 127 / (size - 1) * y;
+        return {r, g};
+    });
 };
