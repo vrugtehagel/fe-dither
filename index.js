@@ -8,75 +8,76 @@ const BAYER_DITHER_MAP = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQ
 
 const template = document.createElement('template');
 template.innerHTML = `
-	<div id="container">
-		<div id="content">
-			<slot></slot>
-		</div>
+<<<<<<< HEAD
+    <div id="container">
+        <div id="content">
+            <slot></slot>
+        </div>
 
-		<div id="dither-map-1"></div>
-		<div id="dither-map-2"></div>
-	</div>
-	<svg id="filter">
-		<defs>
-			<filter id="pixelate" x="0" y="0" width="100%" height="100%">
-				<feImage width="2" height="2" result="single-map" href="${DISPLACEMENT_MAP}"/>
-				<feTile in="single-map" result="full-map"/>
-				<feDisplacementMap in="SourceGraphic" in2="full-map" xChannelSelector="R" yChannelSelector="G" scale="4"/>
-			</filter>
-		</defs>
-	</svg>
-	<style>
-		:host {
-			--dither-map: url(${BAYER_DITHER_MAP});
-			display: block;
-			overflow: hidden;
-			background-color: inherit;
-		}
+        <div id="dither-map-1"></div>
+        <div id="dither-map-2"></div>
+    </div>
+    <svg id="filter">
+        <defs>
+            <filter id="pixelate" x="0" y="0" width="100%" height="100%">
+                <feImage width="2" height="2" result="single-map" href="${DISPLACEMENT_MAP}"/>
+                <feTile in="single-map" result="full-map"/>
+                <feDisplacementMap in="SourceGraphic" in2="full-map" xChannelSelector="R" yChannelSelector="G" scale="4"/>
+            </filter>
+        </defs>
+    </svg>
+    <style>
+        :host {
+            --dither-map: url(${BAYER_DITHER_MAP});
+            display: block;
+            overflow: hidden;
+            background-color: inherit;
+        }
 
-		#container {
-			--pixel-size: 2;
-			width: calc(100% + var(--pixel-size) * 1px);
-			height: calc(100% + var(--pixel-size) * 1px);
-			position: relative;
-			background-color: inherit;
-			overflow: hidden;
-			filter: url(#pixelate) brightness(10000);
-		}
+        #container {
+            --pixel-size: 2;
+            width: calc(100% + var(--pixel-size) * 1px);
+            height: calc(100% + var(--pixel-size) * 1px);
+            position: relative;
+            background-color: inherit;
+            overflow: hidden;
+            filter: url(#pixelate) brightness(10000);
+        }
 
-		#content {
-			width: 100%;
-			height: 100%;
-			position: absolute;
-			top: 0;
-			left: 0;
-			background-color: inherit;
-		}
+        #content {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: inherit;
+        }
 
-		:host([accurate-pixelation]) #content {
-			filter: blur(calc((var(--pixel-size) - 1) / 2 * 1px));
-		}
+        :host([accurate-pixelation]) #content {
+            filter: blur(calc((var(--pixel-size) - 1) / 2 * 1px));
+        }
 
-		#dither-map-1, #dither-map-2 {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: calc(100% / var(--pixel-size));
-			height: calc(100% / var(--pixel-size));
-			background-image: var(--dither-map);
-			image-rendering: pixelated;
-			pointer-events: none;
-			transform: scale(var(--pixel-size));
-			transform-origin: 0 0;
-		}
+        #dither-map-1, #dither-map-2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: calc(100% / var(--pixel-size));
+            height: calc(100% / var(--pixel-size));
+            background-image: var(--dither-map);
+            image-rendering: pixelated;
+            pointer-events: none;
+            transform: scale(var(--pixel-size));
+            transform-origin: 0 0;
+        }
 
-		#dither-map-1 { mix-blend-mode: lighten; }
-		#dither-map-2 { mix-blend-mode: difference; }
+        #dither-map-1 { mix-blend-mode: lighten; }
+        #dither-map-2 { mix-blend-mode: difference; }
 
-		#filter {
-			display: none;
-			color-interpolation-filters: srgb;
-		}
-	</style>
+        #filter {
+            display: none;
+            color-interpolation-filters: srgb;
+        }
+    </style>
 `;
 
 // Above template is probably not very enlightening, so let me try to explain
@@ -90,14 +91,14 @@ template.innerHTML = `
 // the same channel for the source color (i.e. the overlaying dither map). So
 // the process goes as follows:
 //
-//	if a channel in the backdrop is lighter than the one in the dither map:
-//		max(Cb, Cs) computes to the value of the backdrop
-//		| Cb - Cs | computes to something larger than 0
-//		the brightness filter bumps that to 255
-//	if a channel in the backdrop is darker than the one in the dither map:
-//		max(Cb, Cs) computes to the value of the dither map
-//		| Cb - Cs | computes to 0
-//		the brightness filter does nothing to it, keeping it at 0.
+//    if a channel in the backdrop is lighter than the one in the dither map:
+//        max(Cb, Cs) computes to the value of the backdrop
+//        | Cb - Cs | computes to something larger than 0
+//        the brightness filter bumps that to 255
+//    if a channel in the backdrop is darker than the one in the dither map:
+//        max(Cb, Cs) computes to the value of the dither map
+//        | Cb - Cs | computes to 0
+//        the brightness filter does nothing to it, keeping it at 0.
 //
 // Now all of the color channels are set to either 0 or 255, keeping only the
 // brightest colors (yellow, cyan, green, magenta, etcetera) as well as black
@@ -112,44 +113,44 @@ template.innerHTML = `
 // length.
 
 customElements.define('fe-dither', class extends HTMLElement {
-	#elements = {
-		pixelate: null,
-		filter: null,
-		container: null
-	};
+    #elements = {
+        pixelate: null,
+        filter: null,
+        container: null
+    };
 
-	static get observedAttributes(){ return ['pixel-size']; }
+    static get observedAttributes(){ return ['pixel-size']; }
 
-	constructor(){
-		super();
-		const shadow = this.attachShadow({mode: 'closed'});
-		shadow.appendChild(template.content.cloneNode(true));
-		Object.keys(this.#elements).forEach(id => {
-			this.#elements[id] = shadow.getElementById(id);
-		});
-	}
+    constructor(){
+        super();
+        const shadow = this.attachShadow({mode: 'closed'});
+        shadow.appendChild(template.content.cloneNode(true));
+        Object.keys(this.#elements).forEach(id => {
+            this.#elements[id] = shadow.getElementById(id);
+        });
+    }
 
-	attributeChangedCallback(attribute, oldValue, newValue){
-		switch(attribute){
-			case 'pixel-size': this.#updatePixelSize(newValue);
-		}
-	}
+    attributeChangedCallback(attribute, oldValue, newValue){
+        switch(attribute){
+            case 'pixel-size': this.#updatePixelSize(newValue);
+        }
+    }
 
-	get pixelSize(){ return this.getAttribute('pixel-size'); }
-	set pixelSize(value){ this.setAttribute('pixel-size', value); }
+    get pixelSize(){ return this.getAttribute('pixel-size'); }
+    set pixelSize(value){ this.setAttribute('pixel-size', value); }
 
-	#updatePixelSize(value){
-		const size = parseInt(value);
-		if(Number.isNaN(size) || size < 1) return this.pixelSize = 1;
-		const {filter, container} = this.#elements;
-		container.style.setProperty('--pixel-size', size);
-		if(size == 1) return filter.remove();
-		const feImage = filter.querySelector('feImage');
-		const feDisplacementMap = filter.querySelector('feDisplacementMap');
-		feImage.setAttribute('width', size);
-		feImage.setAttribute('height', size);
-		feDisplacementMap.setAttribute('scale', 2 * size);
-		container.after(filter);
-	}
+    #updatePixelSize(value){
+        const size = parseInt(value);
+        if(Number.isNaN(size) || size < 1) return this.pixelSize = 1;
+        const {filter, container} = this.#elements;
+        container.style.setProperty('--pixel-size', size);
+        if(size == 1) return filter.remove();
+        const feImage = filter.querySelector('feImage');
+        const feDisplacementMap = filter.querySelector('feDisplacementMap');
+        feImage.setAttribute('width', size);
+        feImage.setAttribute('height', size);
+        feDisplacementMap.setAttribute('scale', 2 * size);
+        container.after(filter);
+    }
 
 });
