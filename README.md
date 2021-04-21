@@ -7,6 +7,9 @@ This is a simple web component that allows you to dither, well, anything. Includ
     <!-- the content you want to dither -->
 </fe-dither>
 ```
+Here's what it looks like when applying the default options on [MDN's page on feDisplacementMap](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/feDisplacementMap):
+
+![Example of dithered website](https://github.com/vrugtehagel/fe-dither/blob/main/fe-dither-example.png?raw=true)
 
 The cool part is that you can do anything with its content; animate colors, move things around, etcetera, and it'll all just work. Even the scrollbars get dithered! This is all due to the fact that there's no JavaScript involved in the rendering; the JavaScript file is basically just setting up the necessary HTML and CSS, defining the web component and making it configurable (though there are not that many options yet). This is cool and all, but it's actually also efficient because it means the rendering is pretty fast (as it uses the GPU), and you don't have to worry about this component impacting your frame budget.
 
