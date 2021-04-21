@@ -7,11 +7,11 @@ This is a simple web component that allows you to dither, well, anything. Includ
     <!-- the content you want to dither -->
 </fe-dither>
 ```
-Here's what it looks like when applying the default options on [MDN's page on feDisplacementMap](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/feDisplacementMap):
+Here's what it looks like when just slapping an image of a red panda inside it:
 
 ![Example of dithered website](https://github.com/vrugtehagel/fe-dither/blob/main/fe-dither-example.png?raw=true)
 
-Okay, it may not look that good, but you can also just use it to dither images and the like, or build a website around this effect and make it look retro. You can basically put anything in it - you can even animate colors, move things around, etcetera, and it'll all just work. Even the scrollbars get dithered! This is all due to the fact that there's no JavaScript involved in the rendering; the JavaScript file is basically just setting up the necessary HTML and CSS, defining the web component and making it configurable (though there are not that many options yet). This is cool and all, but it's actually also efficient because it means the rendering is pretty fast (as it uses the GPU), and you don't have to worry about this component impacting your frame budget.
+The cool part is that you can do literally anything inside it, not just images - animate colors, move things around, etcetera, and it'll all just work. Even the scrollbars get dithered! This is all due to the fact that there's no JavaScript involved in the rendering; the JavaScript file is basically just setting up the necessary HTML and CSS, defining the web component and making it configurable (though there are not that many options yet). This is cool and all, but it's actually also efficient because it means the rendering is pretty fast (as it uses the GPU), and you don't have to worry about this component impacting your frame budget.
 
 ## Pixel size
 The `pixel-size` attribute controls the size of the pixelation effect. The default is 2, meaning every rendered pixel (square) is 2px by 2px. Setting it to 1 would result in the finest dithering effect you can achieve, and setting it to high values make everything inside it illegible.
