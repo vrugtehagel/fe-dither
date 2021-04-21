@@ -8,7 +8,6 @@ const BAYER_DITHER_MAP = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQ
 
 const template = document.createElement('template');
 template.innerHTML = `
-<<<<<<< HEAD
     <div id="container">
         <div id="content">
             <slot></slot>
