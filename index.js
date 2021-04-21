@@ -27,9 +27,10 @@ template.innerHTML = `
 	</svg>
 	<style>
 		:host {
+			--dither-map: url(${BAYER_DITHER_MAP});
 			display: block;
 			overflow: hidden;
-			--dither-map: url(${BAYER_DITHER_MAP});
+			background-color: inherit;
 		}
 
 		#container {
@@ -37,16 +38,22 @@ template.innerHTML = `
 			width: calc(100% + var(--pixel-size) * 1px);
 			height: calc(100% + var(--pixel-size) * 1px);
 			position: relative;
+			background-color: inherit;
 			overflow: hidden;
 			filter: url(#pixelate) brightness(10000);
 		}
 
 		#content {
+			width: 100%;
+			height: 100%;
 			position: absolute;
 			top: 0;
 			left: 0;
-			width: 100%;
-			height: 100%;
+			background-color: inherit;
+		}
+
+		:host([accurate-pixelation]) #content {
+			filter: blur(calc((var(--pixel-size) - 1) / 2 * 1px));
 		}
 
 		#dither-map-1, #dither-map-2 {
